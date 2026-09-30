@@ -1,0 +1,60 @@
+@import "tailwindcss";
+
+/* ---------- Design tokens ---------- */
+:root {
+  --primary: #06213f;
+  --background: #ffffff;
+  --foreground: #0b1b2e;
+  --border: #e5e7eb;
+  --muted: #6b7280;
+  --accent: #f26522;
+  --tint: #eef3fa;
+  --whatsapp: #25d366;
+}
+
+/* Map tokens to Tailwind utilities (bg-primary, text-accent, etc.) */
+@theme inline {
+  --color-primary: var(--primary);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-border: var(--border);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-tint: var(--tint);
+  --color-whatsapp: var(--whatsapp);
+
+  --font-serif: "Cormorant Garamond", Georgia, serif;
+  --font-sans: "DM Sans", system-ui, sans-serif;
+}
+
+/* ---------- Base ---------- */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+  --font-jp: "Noto Serif JP", serif;
