@@ -2,7 +2,6 @@ import { useCallback, useMemo, useState } from 'react'
 import type { ReactNode } from 'react'
 import Header from './parts/Header'
 import Footer from './parts/Footer'
-import WhatsAppFloat from '../components/ui/WhatsAppFloat'
 import EnquiryModal from '../components/ui/EnquiryModal'
 import { EnquiryContext } from '../lib/enquiry-context'
 
@@ -24,7 +23,6 @@ export default function Website({ children }: { children: ReactNode }) {
         <Header />
         <main>{children}</main>
         <Footer />
-        <WhatsAppFloat />
       </div>
       <EnquiryModal open={open} product={product} onClose={close} />
     </EnquiryContext.Provider>

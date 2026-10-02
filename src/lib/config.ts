@@ -6,15 +6,16 @@ export const SITE = {
   tagline: 'Where Purity Meets Japanese Elegance',
 
   // Country code + number, digits only (no + or spaces)
+  // Used for the WhatsApp button and the "Call Us" button
   whatsappNumber: '919390393329',
-  whatsappDisplay: '93903 93329',
 
-  phone: '[Your Phone Number]',
-  email: '[Your Email Address]',
-  address: '[Your Business Address, City, State, PIN]',
+  // Customer care number shown on the page
+  phone: '+91 93903 93329',
+  email: 'shahigroup.india@gmail.com',
+  address: 'Kukatpally, Medchal-Malkajgiri, Telangana 500072, India.',
 
   instagramHandle: '@kiyorawater.india',
-  instagramUrl: 'https://instagram.com/kiyorawater.india',
+  instagramUrl: 'https://www.instagram.com/kiyorawater.india/',
 
   cities: [
     { name: 'Hyderabad', state: 'Telangana' },

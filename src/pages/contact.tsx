@@ -19,26 +19,23 @@ const AREAS = [
 ]
 
 export default function ContactPage() {
-  const emailIsReal = SITE.email.includes('@') && !SITE.email.startsWith('[')
-
   const cards: {
     icon: typeof faPhone
     label: string
     lines: string[]
     href?: string
   }[] = [
-    { icon: faPhone, label: 'Phone', lines: [SITE.phone] },
     {
-      icon: faWhatsapp,
-      label: 'WhatsApp',
-      lines: [SITE.whatsappDisplay],
-      href: whatsappLink(),
+      icon: faPhone,
+      label: 'Customer Care',
+      lines: [SITE.phone],
+      href: `tel:${SITE.phone.replace(/\s/g, '')}`,
     },
     {
       icon: faEnvelope,
       label: 'Email',
       lines: [SITE.email],
-      href: emailIsReal ? `mailto:${SITE.email}` : undefined,
+      href: `mailto:${SITE.email}`,
     },
     {
       icon: faInstagram,
@@ -49,8 +46,7 @@ export default function ContactPage() {
     {
       icon: faLocationDot,
       label: 'Address',
-      // PLACEHOLDER: replace with your full business address
-      lines: [SITE.parent, 'Hyderabad, Telangana', 'India'],
+      lines: [SITE.address],
     },
   ]
 
@@ -86,7 +82,7 @@ export default function ContactPage() {
           <div>
             <Reveal>
               <SectionLabel>Contact Details</SectionLabel>
-                           <h2 className="mt-4 text-4xl font-light text-primary">
+              <h2 className="mt-4 text-4xl font-light text-primary">
                 Reach Us Directly
               </h2>
               <WaveLine className="mt-6" />
@@ -156,14 +152,13 @@ export default function ContactPage() {
           <div>
             <Reveal direction="right" distance={50}>
               <SectionLabel>Send an Enquiry</SectionLabel>
-                           <h2 className="mt-4 text-4xl font-light text-primary">
+              <h2 className="mt-4 text-4xl font-light text-primary">
                 How Can We Help?
               </h2>
               <WaveLine className="mt-6" />
-              {/* PLACEHOLDER: only promise a response time you can keep */}
               <p className="mt-8 text-[15px] font-light text-foreground/70">
-                Fill in the form and our team will get back to you within one
-                business day.
+                Fill in the form and send it to us on WhatsApp. Our team will
+                reply to you there.
               </p>
             </Reveal>
             <Reveal className="mt-8" delay={0.15}>

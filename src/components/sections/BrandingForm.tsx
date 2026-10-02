@@ -1,11 +1,6 @@
 import { useState } from 'react'
-import type { ChangeEvent, FormEvent } from 'react'
+import type { ChangeEvent, FormEvent, ReactNode } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {
-  faArrowRight,
-  faCircleCheck,
-  faSpinner,
-} from '@fortawesome/free-solid-svg-icons'
 import { faWhatsapp } from '@fortawesome/free-brands-svg-icons'
 import { whatsappLink } from '../../lib/config'
 
@@ -29,19 +24,15 @@ const QUANTITIES = [
 
 type Values = {
   name: string
-  email: string
   phone: string
   business: string
   occasion: string
   quantity: string
   message: string
 }
-type Errors = Partial<Record<'name' | 'email', string>>
-type Status = 'idle' | 'loading' | 'success' | 'error'
 
 const EMPTY: Values = {
   name: '',
-  email: '',
   phone: '',
   business: '',
   occasion: '',
@@ -63,7 +54,7 @@ function Field({
   label: string
   required?: boolean
   error?: string
-  children: React.ReactNode
+  children: ReactNode
 }) {
   return (
     <label className="block">
@@ -83,119 +74,47 @@ function Field({
 
 export default function BrandingForm() {
   const [v, setV] = useState<Values>(EMPTY)
-  const [errors, setErrors] = useState<Errors>({})
-  const [status, setStatus] = useState<Status>('idle')
+  const [nameError, setNameError] = useState<string | undefined>()
 
   const set =
     (key: keyof Values) =>
     (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
       setV((s) => ({ ...s, [key]: e.target.value }))
-      if (key === 'name' || key === 'email')
-        setErrors((er) => ({ ...er, [key]: undefined }))
+      if (key === 'name') setNameError(undefined)
     }
 
-  const validateName = () =>
-    v.name.trim().length < 2 ? 'Please enter your name.' : undefined
-
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    const errs: Errors = {
-      name: validateName(),
-      email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.email.trim())
-        ? undefined
-        : 'Enter a valid email address.',
-    }
-    setErrors(errs)
-    if (errs.name || errs.email) return
-    if (new FormData(e.currentTarget).get('botcheck')) return // spam trap
 
-    setStatus('loading')
-    try {
-      const res = await fetch('https://api.web3forms.com/submit', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify({
-          access_key: import.meta.env.VITE_WEB3FORMS_KEY,
-          subject: 'New KIYORA custom branding request',
-          from_name: 'KIYORA Website',
-          name: v.name,
-          email: v.email,
-          phone: v.phone || '(not given)',
-          business_or_event: v.business || '(not given)',
-          occasion: v.occasion || '(not given)',
-          estimated_quantity: v.quantity || '(not given)',
-          message: v.message || '(none)',
-        }),
-      })
-      const data = await res.json()
-      if (data.success) {
-        setStatus('success')
-        setV(EMPTY)
-      } else {
-        setStatus('error')
-      }
-    } catch {
-      setStatus('error')
+    if (v.name.trim().length < 2) {
+      setNameError('Please enter your name.')
+      return
     }
-  }
 
-  const handleWhatsApp = () => {
-    const nameError = validateName()
-    setErrors((er) => ({ ...er, name: nameError }))
-    if (nameError) return
     const text = [
       'Hello KIYORA, I would like to request custom branding.',
-      `Name: ${v.name}`,
-      `Business / Event: ${v.business || '-'}`,
+      '',
+      `Name: ${v.name.trim()}`,
+      `Phone: ${v.phone.trim() || '-'}`,
+      `Business / Event: ${v.business.trim() || '-'}`,
       `Occasion: ${v.occasion || '-'}`,
       `Estimated quantity: ${v.quantity || '-'}`,
-      `Details: ${v.message || '-'}`,
+      `Details: ${v.message.trim() || '-'}`,
     ].join('\n')
-    window.open(whatsappLink(text), '_blank', 'noopener,noreferrer')
-  }
 
-  if (status === 'success') {
-    return (
-      <div className="border border-border px-8 py-14 text-center">
-        <FontAwesomeIcon icon={faCircleCheck} className="text-4xl text-whatsapp" />
-        <h3 className="mt-5 text-3xl font-light text-primary">Thank you</h3>
-        <p className="mx-auto mt-3 max-w-sm text-[14px] font-light text-foreground/70">
-          Your request has been sent. Our team will get back to you shortly.
-        </p>
-        <button
-          type="button"
-          onClick={() => setStatus('idle')}
-          className="mt-8 border border-primary px-6 py-3 text-[11px] font-medium uppercase tracking-[0.2em] text-primary"
-        >
-          Send another request
-        </button>
-      </div>
-    )
+    window.open(whatsappLink(text), '_blank', 'noopener,noreferrer')
   }
 
   return (
     <form onSubmit={handleSubmit} noValidate>
-      {/* Honeypot */}
-      <input type="text" name="botcheck" tabIndex={-1} autoComplete="off" className="hidden" />
-
       <div className="grid gap-x-6 gap-y-6 sm:grid-cols-2">
-        <Field label="Your Name" required error={errors.name}>
+        <Field label="Your Name" required error={nameError}>
           <input
             value={v.name}
             onChange={set('name')}
             placeholder="Your full name"
             autoComplete="name"
-            className={inputClass(errors.name)}
-          />
-        </Field>
-        <Field label="Email Address" required error={errors.email}>
-          <input
-            type="email"
-            value={v.email}
-            onChange={set('email')}
-            placeholder="you@example.com"
-            autoComplete="email"
-            className={inputClass(errors.email)}
+            className={inputClass(nameError)}
           />
         </Field>
         <Field label="Phone / WhatsApp Number">
@@ -245,40 +164,13 @@ export default function BrandingForm() {
         </div>
       </div>
 
-      {status === 'error' && (
-        <p role="alert" className="mt-5 text-[13px] text-red-600">
-          Something went wrong and your request was not sent. Please try again or
-          use WhatsApp.
-        </p>
-      )}
-
-      <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+      <div className="mt-8">
         <button
           type="submit"
-          disabled={status === 'loading'}
-          className="group inline-flex items-center justify-center gap-2 bg-primary px-6 py-3 text-[11px] font-medium uppercase tracking-[0.2em] text-white transition-colors duration-300 hover:bg-primary/90 disabled:opacity-60"
-        >
-          {status === 'loading' ? (
-            <>
-              <FontAwesomeIcon icon={faSpinner} spin /> Sending...
-            </>
-          ) : (
-            <>
-              Send Enquiry
-              <FontAwesomeIcon
-                icon={faArrowRight}
-                className="text-[10px] transition-transform duration-300 group-hover:translate-x-1"
-              />
-            </>
-          )}
-        </button>
-        <button
-          type="button"
-          onClick={handleWhatsApp}
-          className="inline-flex items-center justify-center gap-2 border border-border px-6 py-3 text-[11px] font-medium uppercase tracking-[0.2em] text-primary transition-colors duration-300 hover:bg-whatsapp hover:text-white"
+          className="inline-flex items-center justify-center gap-2 bg-primary px-6 py-3 text-[11px] font-medium uppercase tracking-[0.2em] text-white transition-colors duration-300 hover:bg-whatsapp"
         >
           <FontAwesomeIcon icon={faWhatsapp} className="text-sm" />
-          WhatsApp Instead
+          Send Message
         </button>
       </div>
     </form>

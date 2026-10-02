@@ -50,11 +50,13 @@ export default function Header() {
       >
         <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-3 md:px-10">
           <Link to="/" aria-label="KIYORA home">
-            <img
-              src="/images/logo.png"
-              alt="KIYORA logo"
-              className="h-12 w-12 object-contain md:h-14 md:w-14"
-            />
+          <img
+  src="/images/logo-header.png"
+  alt="KIYORA logo"
+className={`h-14 w-28 origin-left scale-150 object-contain object-left transition-[filter] duration-300 md:h-16 md:w-36 md:scale-[1.8] ${
+  scrolled ? '' : 'brightness-0 invert'
+}`}
+/>
           </Link>
 
           {/* Desktop nav */}
@@ -124,13 +126,13 @@ export default function Header() {
             >
               {/* Navy top bar: logo left, close right */}
               <div className="flex items-center justify-between bg-primary px-5 py-3">
-                <Link to="/" onClick={() => setOpen(false)} aria-label="KIYORA home">
-                  <img
-                    src="/images/logo.png"
-                    alt="KIYORA logo"
-                    className="h-12 w-12 object-contain"
-                  />
-                </Link>
+              <Link to="/" onClick={() => setOpen(false)} aria-label="KIYORA home">
+  <img
+    src="/images/logo-header.png"
+    alt="KIYORA logo"
+    className="h-14 w-28 origin-left scale-150 object-contain object-left brightness-0 invert"
+  />
+</Link>
                 <button
                   type="button"
                   onClick={() => setOpen(false)}

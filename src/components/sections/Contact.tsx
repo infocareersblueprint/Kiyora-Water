@@ -32,12 +32,6 @@ const PhoneIcon = () => (
   </Icon>
 )
 
-const ChatIcon = () => (
-  <Icon>
-    <path d="M21 12a8.5 8.5 0 01-12.6 7.4L3 21l1.6-5.2A8.5 8.5 0 1121 12z" />
-  </Icon>
-)
-
 const MailIcon = () => (
   <Icon>
     <rect x="3" y="5" width="18" height="14" rx="2" />
@@ -60,11 +54,32 @@ const PinIcon = () => (
   </Icon>
 )
 
-const ITEMS = [
-  { icon: <PhoneIcon />, label: 'Phone', value: SITE.phone },
-  { icon: <ChatIcon />, label: 'WhatsApp', value: SITE.whatsappDisplay },
-  { icon: <MailIcon />, label: 'Email', value: SITE.email },
-  { icon: <InstagramIcon />, label: 'Instagram', value: SITE.instagramHandle },
+const ITEMS: {
+  icon: ReactNode
+  label: string
+  value: string
+  href?: string
+  external?: boolean
+}[] = [
+  {
+    icon: <PhoneIcon />,
+    label: 'Customer Care',
+    value: SITE.phone,
+    href: `tel:${SITE.phone.replace(/\s/g, '')}`,
+  },
+  {
+    icon: <MailIcon />,
+    label: 'Email',
+    value: SITE.email,
+    href: `mailto:${SITE.email}`,
+  },
+  {
+    icon: <InstagramIcon />,
+    label: 'Instagram',
+    value: SITE.instagramHandle,
+    href: SITE.instagramUrl,
+    external: true, // opens the Instagram page in a new tab
+  },
   { icon: <PinIcon />, label: 'Address', value: SITE.address },
 ]
 
@@ -74,7 +89,6 @@ const LINES = [
   'border-t sm:border-l sm:border-t-0',
   'border-t',
   'border-t sm:border-l',
-  'border-t',
 ]
 
 export default function Contact() {
@@ -97,17 +111,17 @@ export default function Contact() {
           <p className="mt-8 text-[10px] uppercase tracking-[0.3em] text-white/50">
             {SITE.parent}
           </p>
-          <p className="mt-2 font-serif text-2xl tracking-[0.2em]">{SITE.brand}</p>
+          <img
+            src="/images/logo-header.png"
+            alt={SITE.brand}
+            className="mx-auto -mb-4 -mt-3 h-24 w-auto scale-[1.8] object-contain brightness-0 invert md:scale-[2]"
+          />
         </Reveal>
 
-        {/* 5 items, thin lines between them only */}
+        {/* 4 items, thin lines between them only */}
         <div className="mt-12 grid text-left sm:grid-cols-2">
-          {ITEMS.map((item, i) => (
-            <Reveal
-              key={item.label}
-              delay={i * 0.1}
-              className={`border-white/15 ${LINES[i]}`}
-            >
+          {ITEMS.map((item, i) => {
+            const content = (
               <div className="flex items-start gap-4 px-2 py-6 sm:px-6">
                 <span className="mt-0.5 text-[#8fa3bf]">{item.icon}</span>
                 <div>
@@ -119,8 +133,30 @@ export default function Contact() {
                   </p>
                 </div>
               </div>
-            </Reveal>
-          ))}
+            )
+
+            return (
+              <Reveal
+                key={item.label}
+                delay={i * 0.1}
+                className={`border-white/15 ${LINES[i]}`}
+              >
+                {item.href ? (
+                  <a
+                    href={item.href}
+                    {...(item.external
+                      ? { target: '_blank', rel: 'noopener noreferrer' }
+                      : {})}
+                    className="block transition-colors hover:bg-white/5"
+                  >
+                    {content}
+                  </a>
+                ) : (
+                  content
+                )}
+              </Reveal>
+            )
+          })}
         </div>
 
         {/* Buttons */}
