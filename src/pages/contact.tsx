@@ -12,10 +12,10 @@ import ContactForm from '../components/sections/ContactForm'
 import { SITE, whatsappLink } from '../lib/config'
 
 const AREAS = [
-  { name: 'Hyderabad', sub: 'Telangana' },
-  { name: 'Kurnool', sub: 'Andhra Pradesh' },
-  { name: 'Telangana', sub: 'State-wide' },
-  { name: 'Andhra Pradesh', sub: 'State-wide' },
+  { name: 'Telangana' },
+  { name: 'Andhra Pradesh' },
+  { name: 'Hyderabad' },
+  { name: 'Kurnool District' },
 ]
 
 export default function ContactPage() {
@@ -190,12 +190,9 @@ export default function ContactPage() {
                   i > 0 ? 'lg:border-l' : ''
                 } ${i > 1 ? 'mt-10 lg:mt-0' : ''}`}
               >
-                <div className="px-4 py-6 text-center">
-                  <p className="font-serif text-2xl">{a.name}</p>
-                  <p className="mt-2 text-[10px] uppercase tracking-[0.25em] text-white/50">
-                    {a.sub}
-                  </p>
-                </div>
+              <div className="px-4 py-6 text-center">
+  <p className="font-serif text-2xl">{a.name}</p>
+</div>
               </Reveal>
             ))}
           </div>

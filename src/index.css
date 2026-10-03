@@ -25,15 +25,20 @@
 
   --font-serif: "Cormorant Garamond", Georgia, serif;
   --font-sans: "DM Sans", system-ui, sans-serif;
+  --font-jp: "Noto Serif JP", serif; /* MOVED here from the bottom of the file */
 }
 
 /* ---------- Base ---------- */
 html {
   scroll-behavior: smooth;
+  max-width: 100%;      /* ADDED: stops the white strip on mobile */
+  overflow-x: clip;     /* ADDED */
 }
 
 body {
   margin: 0;
+  max-width: 100%;      /* ADDED */
+  overflow-x: clip;     /* ADDED */
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans);
@@ -57,4 +62,3 @@ h1, h2, h3, h4 {
     transition-duration: 0.01ms !important;
   }
 }
-  --font-jp: "Noto Serif JP", serif;

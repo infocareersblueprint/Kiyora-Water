@@ -11,7 +11,6 @@ export default function Hero() {
     target: ref,
     offset: ['start start', 'end start'],
   })
-  // CHANGED: 15% -> 8% (less drift, so the image can be shorter)
   const bgY = useTransform(scrollYProgress, [0, 1], ['0%', '8%'])
 
   // Fade-up helper for the staggered entrance
@@ -28,10 +27,10 @@ export default function Hero() {
     <section
       ref={ref}
       id="hero"
-      className="relative flex min-h-screen items-center justify-center overflow-hidden bg-primary text-white"
+      // CHANGED: min-h-screen -> min-h-[100svh] so it fits the mobile browser bar
+      className="relative flex min-h-[100svh] items-center justify-center overflow-hidden bg-primary text-white"
     >
       {/* Background image with light parallax */}
-      {/* CHANGED: h-[120%] -> h-[110%] (less zoom/crop = sharper) */}
       <motion.div
         aria-hidden="true"
         className="absolute inset-x-0 -top-[10%] h-[110%]"
@@ -51,8 +50,9 @@ export default function Hero() {
       {/* Content */}
       <div className="relative z-10 mx-auto flex max-w-4xl flex-col items-center px-6 pb-20 pt-28 text-center">
         <motion.h1 {...fadeUp(0.2)} className="m-0">
-          {/* CHANGED: width 680px -> 520px. brightness-0 invert turns the dark
-              logo white. Remove the filter if your logo is already white. */}
+          {/* CHANGED: use an SVG logo (never blurry), or a PNG at least 1600px wide.
+              brightness-0 invert turns the dark logo white. Remove the filter
+              if your logo is already white. */}
           <img
             src="/images/logo-transparent.png"
             alt="KIYORA - Inspired by Japan, sourced in India"

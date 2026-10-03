@@ -1,34 +1,32 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleCheck, faPhone } from '@fortawesome/free-solid-svg-icons'
-import { faEnvelope } from '@fortawesome/free-regular-svg-icons'
-import { faWhatsapp } from '@fortawesome/free-brands-svg-icons'
 import Reveal from '../components/ui/Reveal'
 import SectionLabel, { Divider, WaveLine } from '../components/ui/SectionLabel'
 import { useEnquiry } from '../lib/enquiry-context'
 import ArrowLink from '../components/ui/ArrowLink'
-import { SITE, whatsappLink } from '../lib/config'
+import { SITE } from '../lib/config'
 
 const PRODUCTS = [
   {
     badge: '250 ML',
     size: '250 ml',
     label: 'The Dining Essential',
-    text: 'The KIYORA 250 ml bottle is the perfect companion for fine dining tables, individual servings, meetings and hospitality settings. Its compact, elegant form makes it ideal for restaurants, cafes, airlines and premium events where presentation matters.',
-    uses: ['Fine dining restaurants', 'Cafes and lounges', 'Corporate meetings'],
+    text: 'The KIYORA 250 ml bottle is the perfect companion for office tables, individual servings, corporate meetings, and hospitality settings. Its compact and elegant design makes it ideal for occasions where presentation, convenience, and purity matter.',
+    uses: ['Events & Celebrations', 'Corporate Meetings', 'Offices & Workplaces'],
   },
   {
     badge: '500 ML',
     size: '500 ml',
     label: 'The Everyday Premium',
-    text: 'The KIYORA 500 ml bottle is our most versatile format — suited for everyday hydration, events, catering and hospitality. A balanced size that delivers premium quality for both individual and bulk requirements.',
-    uses: ['Events and celebrations', 'Catering services', 'Hotels and hospitality'],
+    text: 'The KIYORA 500 ml bottle is our most versatile format — suited for everyday hydration, cafes, catering and hospitality. A balanced size that delivers premium quality for both individual and bulk requirements.',
+    uses: ['Fine dining restaurants', 'Cafes and lounges', 'Catering and banquets'],
   },
   {
     badge: '1 LITRE',
     size: '1 Litre',
     label: 'The Generous Pour',
-    text: 'The KIYORA 1 Litre bottle is designed for offices, extended gatherings, catering operations and households that demand premium water without compromise. Ideal for bulk orders and long-format events.',
-    uses: ['Offices and workplaces', 'Catering and banquets', 'Homes and households'],
+    text: 'The KIYORA 1 Litre bottle is designed for Hotels-Lodge, Restaurants, extended gatherings, and households that demand premium water without compromise. Ideal for bulk orders and long-format events.',
+    uses: ['Homes and households', 'Hotels and hospitality', 'Cafes and lounges'],
   },
 ]
 
@@ -149,16 +147,6 @@ export default function ProductsPage() {
                   >
                     Enquire about {p.size}
                   </ArrowLink>
-                  <ArrowLink
-                    variant="outline"
-                    icon={faWhatsapp}
-                    href={whatsappLink(
-                      `Hello KIYORA, I would like to enquire about the ${p.size} bottle.`,
-                    )}
-                    external
-                  >
-                    WhatsApp
-                  </ArrowLink>
                 </div>
               </Reveal>
             </div>
@@ -225,26 +213,11 @@ export default function ProductsPage() {
           </p>
           <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <ArrowLink
-              variant="whatsapp"
-              icon={faWhatsapp}
-              href={whatsappLink()}
-              external
-            >
-              Chat on WhatsApp
-            </ArrowLink>
-            <ArrowLink
               variant="outline"
               icon={faPhone}
               href={`tel:+${SITE.whatsappNumber}`}
             >
               Call Us
-            </ArrowLink>
-            <ArrowLink
-              variant="outline"
-              icon={faEnvelope}
-              onClick={() => openEnquiry('General Enquiry')}
-            >
-              Email Us
             </ArrowLink>
           </div>
         </Reveal>

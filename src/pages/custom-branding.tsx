@@ -70,9 +70,9 @@ const STEPS = [
 ]
 
 const SIZES = [
-  { size: '250 ml', text: 'Ideal for dining tables, meetings and individual servings.' },
-  { size: '500 ml', text: 'Most popular for events, hospitality and everyday use.' },
-  { size: '1 Litre', text: 'Suited for offices, catering and extended occasions.' },
+  { size: '250 ml', text: 'Ideal for office tables, marriages, events, meetings and individual servings.' },
+  { size: '500 ml', text: 'Most popular for events, cafes, restaurants, hospitality and everyday use.' },
+  { size: '1 Litre', text: 'Suited for Hotels-Lodges, Restaurants and extended occasions.' },
 ]
 
 export default function CustomBrandingPage() {
@@ -223,7 +223,7 @@ export default function CustomBrandingPage() {
             <h2 className="mt-5 text-4xl font-light text-primary md:text-5xl">
               Request Custom Branding
             </h2>
-      <WaveLine className="mt-6" />
+            <WaveLine className="mt-6" />
           </Reveal>
           <Reveal className="mt-10" delay={0.15}>
             <BrandingForm />

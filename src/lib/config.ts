@@ -12,7 +12,7 @@ export const SITE = {
   // Customer care number shown on the page
   phone: '+91 93903 93329',
   email: 'shahigroup.india@gmail.com',
-  address: 'Kukatpally, Medchal-Malkajgiri, Telangana 500072, India.',
+ address: 'Kukatpally, Hyderabad, Telangana 500072, INDIA.',
 
   instagramHandle: '@kiyorawater.india',
   instagramUrl: 'https://www.instagram.com/kiyorawater.india/',
