@@ -6,6 +6,7 @@ import ProductsPage from './pages/products'
 import CustomBrandingPage from './pages/custom-branding'
 import AboutPage from './pages/about'
 import ContactPage from './pages/contact'
+import PlantDetailsPage from './pages/plant-details'
 
 function ScrollManager() {
   const { pathname, hash } = useLocation()
@@ -31,6 +32,7 @@ export default function App() {
         <Route path="/" element={<IndexPage />} />
         <Route path="/products" element={<ProductsPage />} />
         <Route path="/custom-branding" element={<CustomBrandingPage />} />
+        <Route path="/plant-details" element={<PlantDetailsPage />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/contact" element={<ContactPage />} />
       </Routes>
