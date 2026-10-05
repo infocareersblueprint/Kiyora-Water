@@ -41,15 +41,93 @@ function findPlant(raw: string): Plant | null {
 
 function Row({ icon, label, value }: { icon: typeof faIndustry; label: string; value?: string }) {
   return (
-    <div className="flex items-center gap-4">
-      <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-tint text-accent">
+    <div className="flex items-center gap-3 sm:gap-4">
+      <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-tint text-sm text-accent sm:h-9 sm:w-9 sm:text-base">
         <FontAwesomeIcon icon={icon} />
       </div>
       <div className="min-w-0">
-        <p className="text-sm font-semibold text-foreground">{label}</p>
+        <p className="text-[13px] font-semibold text-foreground sm:text-sm">{label}</p>
         {value && <p className="mt-1 text-sm leading-relaxed text-muted break-words">{value}</p>}
       </div>
     </div>
+  )
+}
+
+function FactoryIllustration() {
+  const bottle =
+    'M162 38 h36 v18 c0 8 32 14 32 34 v105 a10 10 0 0 1 -10 10 h-80 a10 10 0 0 1 -10 -10 v-105 c0 -20 32 -26 32 -34 Z'
+  return (
+    <svg viewBox="0 0 360 240" role="img" aria-label="Water bottle with batch code" className="h-auto w-full">
+      <defs>
+        <clipPath id="bottle-clip">
+          <path d={bottle} />
+        </clipPath>
+      </defs>
+
+      {/* soft backdrop */}
+      <circle cx="180" cy="118" r="98" className="fill-tint" />
+
+      {/* floating drops + bubbles */}
+      <path d="M74 84 C80 94 85 98 85 104 a11 11 0 0 1 -22 0 C63 98 68 94 74 84 Z" className="fill-accent" />
+      <path d="M300 62 C304 69 307 72 307 76 a7 7 0 0 1 -14 0 C293 72 296 69 300 62 Z" className="fill-primary" />
+      <circle cx="104" cy="150" r="5" fill="none" stroke="#c9d8ee" strokeWidth="2" />
+      <circle cx="92" cy="170" r="3" fill="none" stroke="#c9d8ee" strokeWidth="2" />
+
+      {/* bottle body */}
+      <path d={bottle} fill="#eef3fa" stroke="#c9d8ee" strokeWidth="2" />
+
+      {/* water */}
+      <g clipPath="url(#bottle-clip)">
+        <path
+          d="M120 112 q15 -8 30 0 t30 0 t30 0 t30 0 V210 H120 Z"
+          className="fill-accent"
+          opacity="0.35"
+        />
+        <path
+          d="M120 124 q15 -8 30 0 t30 0 t30 0 t30 0 V210 H120 Z"
+          className="fill-accent"
+          opacity="0.6"
+        />
+        {/* highlight */}
+        <rect x="140" y="80" width="6" height="110" rx="3" fill="#fff" opacity="0.55" />
+      </g>
+
+      {/* label */}
+      <rect x="130" y="146" width="100" height="34" className="fill-primary" />
+      <text
+        x="180"
+        y="168"
+        textAnchor="middle"
+        fontSize="14"
+        fontWeight="700"
+        letterSpacing="3"
+        fill="#fff"
+      >
+        KIYORA
+      </text>
+
+      {/* cap */}
+      <rect x="157" y="18" width="46" height="20" rx="4" className="fill-accent" />
+      <rect x="157" y="26" width="46" height="3" fill="#fff" opacity="0.35" />
+
+      {/* batch code tag */}
+      <path d="M232 190 H262" stroke="#c9d8ee" strokeWidth="2" strokeDasharray="3 3" fill="none" />
+      <rect x="262" y="174" width="70" height="32" rx="8" fill="#fff" stroke="#c9d8ee" strokeWidth="2" />
+      <text
+        x="297"
+        y="195"
+        textAnchor="middle"
+        fontSize="13"
+        fontWeight="700"
+        letterSpacing="1"
+        className="fill-primary"
+      >
+        KH2410
+      </text>
+
+      {/* ground */}
+      <rect x="60" y="213" width="240" height="8" rx="4" fill="#c9d8ee" />
+    </svg>
   )
 }
 
@@ -131,10 +209,19 @@ export default function PlantDetailsPage() {
           </p>
         )}
 
+        {!hasSearched && (
+          <div className="mx-auto mt-10 w-full max-w-xs sm:max-w-sm">
+            <FactoryIllustration />
+            <p className="mt-3 text-center text-sm text-muted">
+              Enter a batch code to see where your bottle was filled
+            </p>
+          </div>
+        )}
+
         {hasSearched && (
           <section
             aria-live="polite"
-            className="mx-auto mt-8 max-w-md rounded-xl border border-border bg-background p-6 shadow-sm"
+            className="mx-auto mt-8 max-w-md rounded-xl border border-border bg-background p-4 shadow-sm sm:p-6"
           >
             {plant ? (
               <div className="space-y-5">
