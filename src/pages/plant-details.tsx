@@ -14,22 +14,24 @@ import {
 
 type Plant = { code: string; address: string; fssai: string }
 
-// DUMMY DATA: replace with the real plant details
 const PLANTS: Plant[] = [
   {
-    code: 'KH',
-    address: 'Kiyora Water Pvt Ltd, Plot No. 00, Industrial Area, Hyderabad, Telangana - 500000',
-    fssai: '10000000000001',
+    code: 'TB',
+    address:
+      'Trishul Foods & Beverages, Sy. No. 153/1A, Behind Arunodaya Highway Dhaba, Dinne Deverapadu, Kurnool -3, [A.P.]',
+    fssai: '10125012000394',
   },
   {
-    code: 'KK',
-    address: 'Kiyora Water Pvt Ltd, Plot No. 00, Industrial Area, Kurnool, Andhra Pradesh - 518000',
-    fssai: '10000000000002',
+    code: 'SH',
+    address:
+      'SEVEN STAR KING AQUA, Plot No. 37, Aditya Nagar, New Hafeezpet, Serilingampally, R.R. Dist. Telangana, India 500049',
+    fssai: '13623013000034',
   },
   {
-    code: 'KN',
-    address: 'Kiyora Water Pvt Ltd, Plot No. 00, Industrial Area, City, State - 000000',
-    fssai: '10000000000003',
+    code: 'SS',
+    address:
+      'KING SEVEN STAR AQUA LLP, Plot No. 6-50, Opp. HPR Dhaba Fasalwadi Village, Sangareddy (Urban), Telangana - 502294',
+    fssai: '13625026000609',
   },
 ]
 
@@ -53,86 +55,8 @@ function Row({ icon, label, value }: { icon: typeof faIndustry; label: string; v
   )
 }
 
-function FactoryIllustration() {
-  const bottle =
-    'M162 38 h36 v18 c0 8 32 14 32 34 v105 a10 10 0 0 1 -10 10 h-80 a10 10 0 0 1 -10 -10 v-105 c0 -20 32 -26 32 -34 Z'
-  return (
-    <svg viewBox="0 0 360 240" role="img" aria-label="Water bottle with batch code" className="h-auto w-full">
-      <defs>
-        <clipPath id="bottle-clip">
-          <path d={bottle} />
-        </clipPath>
-      </defs>
-
-      {/* soft backdrop */}
-      <circle cx="180" cy="118" r="98" className="fill-tint" />
-
-      {/* floating drops + bubbles */}
-      <path d="M74 84 C80 94 85 98 85 104 a11 11 0 0 1 -22 0 C63 98 68 94 74 84 Z" className="fill-accent" />
-      <path d="M300 62 C304 69 307 72 307 76 a7 7 0 0 1 -14 0 C293 72 296 69 300 62 Z" className="fill-primary" />
-      <circle cx="104" cy="150" r="5" fill="none" stroke="#c9d8ee" strokeWidth="2" />
-      <circle cx="92" cy="170" r="3" fill="none" stroke="#c9d8ee" strokeWidth="2" />
-
-      {/* bottle body */}
-      <path d={bottle} fill="#eef3fa" stroke="#c9d8ee" strokeWidth="2" />
-
-      {/* water */}
-      <g clipPath="url(#bottle-clip)">
-        <path
-          d="M120 112 q15 -8 30 0 t30 0 t30 0 t30 0 V210 H120 Z"
-          className="fill-accent"
-          opacity="0.35"
-        />
-        <path
-          d="M120 124 q15 -8 30 0 t30 0 t30 0 t30 0 V210 H120 Z"
-          className="fill-accent"
-          opacity="0.6"
-        />
-        {/* highlight */}
-        <rect x="140" y="80" width="6" height="110" rx="3" fill="#fff" opacity="0.55" />
-      </g>
-
-      {/* label */}
-      <rect x="130" y="146" width="100" height="34" className="fill-primary" />
-      <text
-        x="180"
-        y="168"
-        textAnchor="middle"
-        fontSize="14"
-        fontWeight="700"
-        letterSpacing="3"
-        fill="#fff"
-      >
-        KIYORA
-      </text>
-
-      {/* cap */}
-      <rect x="157" y="18" width="46" height="20" rx="4" className="fill-accent" />
-      <rect x="157" y="26" width="46" height="3" fill="#fff" opacity="0.35" />
-
-      {/* batch code tag */}
-      <path d="M232 190 H262" stroke="#c9d8ee" strokeWidth="2" strokeDasharray="3 3" fill="none" />
-      <rect x="262" y="174" width="70" height="32" rx="8" fill="#fff" stroke="#c9d8ee" strokeWidth="2" />
-      <text
-        x="297"
-        y="195"
-        textAnchor="middle"
-        fontSize="13"
-        fontWeight="700"
-        letterSpacing="1"
-        className="fill-primary"
-      >
-        KH2410
-      </text>
-
-      {/* ground */}
-      <rect x="60" y="213" width="240" height="8" rx="4" fill="#c9d8ee" />
-    </svg>
-  )
-}
-
 export default function PlantDetailsPage() {
-  // QR support: /plant-details?code=KH
+  // QR support: /plant-details?code=TB
   const [params, setParams] = useSearchParams()
   const initial = params.get('code') ?? ''
   const [input, setInput] = useState(initial)
@@ -174,7 +98,7 @@ export default function PlantDetailsPage() {
       <div className="mx-auto max-w-4xl px-6">
         <p className="mx-auto mt-10 max-w-xl text-center text-muted leading-relaxed">
           To get details of the manufacturing unit &amp; FSSAI Licence number, enter the initial
-          two/three characters of the batch number in the search box e.g. KH
+          two/three characters of the batch number in the search box
         </p>
 
         <form
@@ -205,13 +129,18 @@ export default function PlantDetailsPage() {
         {error && (
           <p role="alert" className="mx-auto mt-2 max-w-md text-sm text-accent">
             <FontAwesomeIcon icon={faCircleExclamation} className="mr-2" />
-            Please type the batch code to search, e.g. KH
+            Please type the batch code to search
           </p>
         )}
 
         {!hasSearched && (
           <div className="mx-auto mt-10 w-full max-w-xs sm:max-w-sm">
-            <FactoryIllustration />
+            <img
+              src="/images/plant-detail.png"
+              alt="Kiyora plant"
+              className="mx-auto h-auto w-full"
+              loading="lazy"
+            />
             <p className="mt-3 text-center text-sm text-muted">
               Enter a batch code to see where your bottle was filled
             </p>
