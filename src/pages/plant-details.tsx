@@ -12,26 +12,47 @@ import {
   faCircleExclamation,
 } from '@fortawesome/free-solid-svg-icons'
 
-type Plant = { code: string; address: string; fssai: string }
+type Unit = { name: string; address: string; fssai: string }
+type Plant = { code: string; units: Unit[] }
 
 const PLANTS: Plant[] = [
   {
     code: 'TB',
-    address:
-      'Trishul Foods & Beverages, Sy. No. 153/1A, Behind Arunodaya Highway Dhaba, Dinne Deverapadu, Kurnool -3, [A.P.]',
-    fssai: '10125012000394',
+    units: [
+      {
+        name: 'Trishul Foods & Beverages',
+        address: 'Sy. No. 153/1A, Behind Arunodaya Highway Dhaba, Dinne Deverapadu, Kurnool -3, [A.P.]',
+        fssai: '10125012000394',
+      },
+    ],
   },
   {
-    code: 'SH',
-    address:
-      'SEVEN STAR KING AQUA, Plot No. 37, Aditya Nagar, New Hafeezpet, Serilingampally, R.R. Dist. Telangana, India 500049',
-    fssai: '13623013000034',
+    code: '7S',
+    units: [
+      {
+        name: 'SEVEN STAR KING AQUA',
+        address: 'Plot No. 37, Aditya Nagar, New Hafeezpet, Serilingampally, R.R. Dist. Telangana, India 500049',
+        fssai: '13623013000034',
+      },
+      {
+        name: 'KING SEVEN STAR AQUA LLP',
+        address: 'Plot No. 6-50, Opp. HPR Dhaba Fasalwadi Village, Sangareddy (Urban), Telangana - 502294',
+        fssai: '13625026000609',
+      },
+    ],
+  },
+]
+
+const MARKETED_BY = [
+  {
+    state: 'Telangana',
+    lines: ['SHAHI GROUP OF INDUSTRIES', 'Kukatpally, Medchal-Malkajgiri, Hyderabad,', 'Telangana 500072. INDIA'],
+    fssai: '23626052000223',
   },
   {
-    code: 'SS',
-    address:
-      'KING SEVEN STAR AQUA LLP, Plot No. 6-50, Opp. HPR Dhaba Fasalwadi Village, Sangareddy (Urban), Telangana - 502294',
-    fssai: '13625026000609',
+    state: 'Andhra Pradesh',
+    lines: ['SHAHI GROUP OF INDUSTRIES', 'I Town, Kurnool,', 'Andhra Pradesh, 518001. INDIA'],
+    fssai: '',
   },
 ]
 
@@ -49,7 +70,7 @@ function Row({ icon, label, value }: { icon: typeof faIndustry; label: string; v
       </div>
       <div className="min-w-0">
         <p className="text-[13px] font-semibold text-foreground sm:text-sm">{label}</p>
-        {value && <p className="mt-1 text-sm leading-relaxed text-muted break-words">{value}</p>}
+        {value && <p className="mt-1 whitespace-pre-line text-sm leading-relaxed text-muted break-words">{value}</p>}
       </div>
     </div>
   )
@@ -84,14 +105,29 @@ export default function PlantDetailsPage() {
   return (
     <main>
       {/* Navy hero: lets the transparent header show over a dark background */}
-      <section className="bg-primary pt-32 pb-14 text-white md:pt-40">
+      <section className="bg-primary pt-32 pb-12 text-white md:pt-40">
         <div className="mx-auto max-w-4xl px-6">
           <nav className="text-xs text-white/70">
             <Link to="/" className="font-medium text-white hover:text-accent">Home</Link>
             <span className="mx-2">:</span>
-            <span>Kiyora Plant Locator</span>
+            <span>Kiyora Plant Locator &amp; Marketed By</span>
           </nav>
-          <h1 className="mt-6 text-4xl text-white md:text-5xl">Kiyora Plant Locator</h1>
+          <h1 className="mt-6 text-4xl text-white md:text-5xl">Kiyora Plant Locator &amp; Marketed By</h1>
+
+          <div className="mt-8 border-t border-white/15 pt-6">
+            <p className="text-xs font-semibold uppercase tracking-widest text-accent">Marketed by</p>
+            <div className="mt-4 grid gap-6 sm:grid-cols-2">
+              {MARKETED_BY.map((m) => (
+                <div key={m.state}>
+                  <p className="font-semibold text-white">{m.state}</p>
+                  {m.lines.map((l) => (
+                    <p key={l} className="mt-1 text-sm leading-relaxed text-white/75">{l}</p>
+                  ))}
+                  {m.fssai && <p className="mt-1 text-sm text-white/75">FSSAI Lic No. {m.fssai}</p>}
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
 
@@ -155,8 +191,15 @@ export default function PlantDetailsPage() {
             {plant ? (
               <div className="space-y-5">
                 <Row icon={faIndustry} label={`Plant Code: ${plant.code}`} />
-                <Row icon={faLocationDot} label="Plant Address:" value={plant.address} />
-                <Row icon={faHashtag} label={`FSSAI License No: ${plant.fssai}`} />
+                {plant.units.map((u, i) => (
+                  <div key={u.fssai} className={`space-y-5 ${i > 0 ? 'border-t border-border pt-5' : ''}`}>
+                    {plant.units.length > 1 && (
+                      <p className="text-xs font-semibold uppercase tracking-widest text-accent">Plant {i + 1}</p>
+                    )}
+                    <Row icon={faLocationDot} label="Plant Address:" value={`${u.name}\n${u.address}`} />
+                    <Row icon={faHashtag} label={`FSSAI License No: ${u.fssai}`} />
+                  </div>
+                ))}
               </div>
             ) : (
               <div className="text-center">
